@@ -1,0 +1,66 @@
+import tkinter as tk
+from math import cos, sin, pi
+
+# Define the colors for the hexagram lines
+line_colors = ['black', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+
+# Create a Tkinter window
+window = tk.Tk()
+window.title("I Ching Hexagram Circle")
+window.geometry("400x400")
+
+# Create a canvas to display the hexagram circle
+canvas = tk.Canvas(window, width=400, height=400, bg='white')
+
+# Calculate the center coordinates of the canvas
+center_x = 200
+center_y = 200
+
+# Calculate the radius of the hexagram circle
+radius = 150
+
+# Draw the hexagram lines
+for i in range(8):
+    start_angle = 45 * i
+    end_angle = 45 * (i + 1)
+    start_x = center_x + radius * cos(start_angle * pi / 180)
+    start_y = center_y + radius * sin(start_angle * pi / 180)
+    end_x = center_x + radius * cos(end_angle * pi / 180)
+    end_y = center_y + radius * sin(end_angle * pi / 180)
+    canvas.create_line(start_x, start_y, end_x, end_y, fill=line_colors[i], width=2)
+
+# Draw the Yin Yang symbol in the center
+symbol_radius = 30
+canvas.create_oval(center_x - symbol_radius, center_y - symbol_radius, center_x + symbol_radius, center_y + symbol_radius, outline='black', width=2)
+canvas.create_oval(center_x - symbol_radius, center_y - symbol_radius // 2, center_x + symbol_radius, center_y + symbol_radius // 2, fill='black', outline='black', width=2)
+canvas.create_oval(center_x - symbol_radius, center_y - symbol_radius // 2, center_x + symbol_radius, center_y + symbol_radius // 2, fill='white', outline='black', width=2)
+
+# Pack the canvas into the window
+canvas.pack()
+
+# Define the I Ching hexagram sequence
+hexagram_seq = '111000'
+
+# Map the hexagram sequence to line colors
+hexagram_colors = [line_colors[int(line)] for line in hexagram_seq]
+
+# Display the hexagram sequence
+hexagram_label = tk.Label(window, text=f"Hexagram Sequence: {hexagram_seq}", font=('Arial', 14))
+hexagram_label.pack()
+
+# Display the hexagram colors
+colors_label = tk.Label(window, text=f"Hexagram Colors: {', '.join(hexagram_colors)}", font=('Arial', 14))
+colors_label.pack()
+
+# Calculate the entanglement and tunneling timing based on the hexagram sequence
+entanglement_timing = hexagram_seq[2:5]
+tunneling_timing = hexagram_seq[1] + hexagram_seq[5]
+
+# Display the entanglement and tunneling timing
+entanglement_label = tk.Label(window, text=f"Entanglement Timing: {entanglement_timing}", font=('Arial', 14))
+entanglement_label.pack()
+tunneling_label = tk.Label(window, text=f"Tunneling Timing: {tunneling_timing}", font=('Arial', 14))
+tunneling_label.pack()
+
+# Start the Tkinter event loop
+window.mainloop()
